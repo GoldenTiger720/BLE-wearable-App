@@ -64,6 +64,12 @@ The upgrade was straightforward and should not affect:
 
 ## If Issues Occur
 
+### "Cannot find module 'babel-preset-expo'" ✅ FIXED
+```bash
+npm install --legacy-peer-deps babel-preset-expo
+rm -rf .expo node_modules/.cache
+```
+
 ### Clear Cache
 ```bash
 npm start -- --clear
