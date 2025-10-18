@@ -36,9 +36,43 @@ export interface Message {
 
 export interface SensorEvent {
   id: string;
-  type: 'heartRate' | 'steps' | 'activity' | 'battery' | 'custom';
+  type: 'heartRate' | 'steps' | 'activity' | 'battery' | 'custom' | 'spo2' | 'temperature' | 'wellness';
   value: any;
   timestamp: Date;
+}
+
+// Backend-specific biosignal data
+export interface BiosignalReading {
+  heart_rate: number;
+  spo2: number;
+  temperature: number;
+  activity: number;
+  timestamp: Date;
+}
+
+// Wellness metrics from LIA engine
+export interface WellnessMetrics {
+  overall_wellness: number;
+  cardiovascular_health: number;
+  respiratory_health: number;
+  activity_level: number;
+  stress_level: number;
+}
+
+// Health condition from LIA
+export interface HealthCondition {
+  condition: string;
+  confidence: number;
+  probabilities: Record<string, number>;
+  recommendation: string;
+}
+
+// Signal quality assessment
+export interface SignalQuality {
+  quality_score: number;
+  signal_to_noise_ratio: number;
+  quality_assessment: 'excellent' | 'good' | 'fair' | 'poor';
+  artifacts_detected: string[];
 }
 
 export interface Settings {
