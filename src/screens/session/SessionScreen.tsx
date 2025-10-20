@@ -54,9 +54,20 @@ export const SessionScreen: React.FC = () => {
   const [sessionSummary, setSessionSummary] = useState<{summary: string, highlights: string[]} | null>(null);
 
   const scrollViewRef = useRef<ScrollView>(null);
-  const openAIService = useRef(new OpenAIService());
-  const voiceService = useRef(new VoiceService());
-  const simulator = useRef(new WearableSimulator());
+  const openAIService = useRef<OpenAIService | null>(null);
+  const voiceService = useRef<VoiceService | null>(null);
+  const simulator = useRef<WearableSimulator | null>(null);
+
+  // Lazy initialization of services
+  if (!openAIService.current) {
+    openAIService.current = new OpenAIService();
+  }
+  if (!voiceService.current) {
+    voiceService.current = new VoiceService();
+  }
+  if (!simulator.current) {
+    simulator.current = new WearableSimulator();
+  }
 
   useEffect(() => {
     if (!currentSession) {

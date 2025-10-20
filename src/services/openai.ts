@@ -13,19 +13,29 @@ interface StreamChunk {
 export class OpenAIService {
   private baseURL = API_BASE_URL;
   private useDemoMode: boolean = false;
+  private backendChecked: boolean = false;
 
   constructor() {
-    // Check if backend is available
+    // Check if backend is available (async, non-blocking)
     this.checkBackendAvailability();
   }
 
   private async checkBackendAvailability() {
+    if (this.backendChecked) return;
+    this.backendChecked = true;
+
     try {
-      const response = await fetch(`${this.baseURL}/health`);
+      const response = await fetch(`${this.baseURL}/health`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
       this.useDemoMode = !response.ok;
+      if (this.useDemoMode) {
+        console.log('OpenAI backend unavailable, using demo responses');
+      }
     } catch {
       this.useDemoMode = true;
-      console.log('Backend not available, using demo mode');
+      console.log('OpenAI backend unavailable, using demo responses');
     }
   }
 

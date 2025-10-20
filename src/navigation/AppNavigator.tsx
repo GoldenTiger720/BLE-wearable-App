@@ -18,6 +18,9 @@ import { SessionDetailScreen } from '../screens/session/SessionDetailScreen';
 import { HistoryScreen } from '../screens/history/HistoryScreen';
 import { SettingsScreen } from '../screens/settings/SettingsScreen';
 import { MyProfileScreen } from '../screens/profile/MyProfileScreen';
+import { LiveDataScreen } from '../screens/livedata/LiveDataScreen';
+import { ProcessingLogsScreen } from '../screens/logs/ProcessingLogsScreen';
+import { DemoConnectionScreen } from '../screens/demo/DemoConnectionScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -182,6 +185,33 @@ const AppNavigator: React.FC = () => {
               options={{
                 title: 'My Profile',
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="LiveData"
+              component={LiveDataScreen}
+              options={{
+                title: 'Live Data Stream',
+                headerShown: false,
+                presentation: 'modal',
+              }}
+            />
+            <Stack.Screen
+              name="ProcessingLogs"
+              component={ProcessingLogsScreen}
+              options={{
+                title: 'Processing Logs',
+                headerShown: false,
+                presentation: 'modal',
+              }}
+            />
+            <Stack.Screen
+              name="DemoConnection"
+              component={DemoConnectionScreen}
+              options={{
+                title: 'API Demo',
+                headerShown: false,
+                presentation: 'modal',
               }}
             />
           </>

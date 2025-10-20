@@ -53,11 +53,11 @@ export const DashboardScreen: React.FC = () => {
     // Calculate today's summary
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
-    const todaySessions = sessions.filter(s => 
+
+    const todaySessions = sessions.filter(s =>
       s.startTime >= today
     );
-    
+
     const totalTime = todaySessions.reduce((acc, s) => {
       if (s.endTime) {
         return acc + (s.endTime.getTime() - s.startTime.getTime());
@@ -70,7 +70,9 @@ export const DashboardScreen: React.FC = () => {
       activeTime: Math.floor(totalTime / 1000 / 60), // minutes
       insights: todaySessions.reduce((acc, s) => acc + (s.highlights?.length || 0), 0),
     });
+  }, [sessions.length]);
 
+  useEffect(() => {
     // Subscribe to notification updates
     const unsubscribe = NotificationService.subscribeToNotifications(() => {
       setUnreadCount(NotificationService.getUnreadCount());
@@ -80,7 +82,7 @@ export const DashboardScreen: React.FC = () => {
     setUnreadCount(NotificationService.getUnreadCount());
 
     return unsubscribe;
-  }, [sessions]);
+  }, []);
 
   const getRecentSessions = (): Session[] => {
     return sessions
@@ -278,6 +280,77 @@ export const DashboardScreen: React.FC = () => {
       </Surface>
 
       {renderConnectionStatus()}
+
+      {/* Backend Integration Section */}
+      <View style={styles.section}>
+        <Text variant="titleLarge" style={styles.sectionTitle}>
+          Backend Integration
+        </Text>
+        <Text variant="bodyMedium" style={styles.promptSubtitle}>
+          Access real-time data and layer processing
+        </Text>
+        <View style={styles.integrationGrid}>
+          <Card
+            style={styles.integrationCard}
+            onPress={() => navigation.navigate('LiveData' as never)}
+          >
+            <Card.Content style={styles.integrationContent}>
+              <IconButton
+                icon="sine-wave"
+                size={32}
+                iconColor="#4ECDC4"
+                style={styles.integrationIcon}
+              />
+              <Text variant="titleSmall" style={styles.integrationTitle}>
+                Live Data
+              </Text>
+              <Text variant="bodySmall" style={styles.integrationSubtitle}>
+                Real-time biosignals
+              </Text>
+            </Card.Content>
+          </Card>
+
+          <Card
+            style={styles.integrationCard}
+            onPress={() => navigation.navigate('ProcessingLogs' as never)}
+          >
+            <Card.Content style={styles.integrationContent}>
+              <IconButton
+                icon="text-box-outline"
+                size={32}
+                iconColor="#FF6B6B"
+                style={styles.integrationIcon}
+              />
+              <Text variant="titleSmall" style={styles.integrationTitle}>
+                Logs
+              </Text>
+              <Text variant="bodySmall" style={styles.integrationSubtitle}>
+                Layer processing
+              </Text>
+            </Card.Content>
+          </Card>
+
+          <Card
+            style={styles.integrationCard}
+            onPress={() => navigation.navigate('DemoConnection' as never)}
+          >
+            <Card.Content style={styles.integrationContent}>
+              <IconButton
+                icon="api"
+                size={32}
+                iconColor="#96CEB4"
+                style={styles.integrationIcon}
+              />
+              <Text variant="titleSmall" style={styles.integrationTitle}>
+                API
+              </Text>
+              <Text variant="bodySmall" style={styles.integrationSubtitle}>
+                Test endpoints
+              </Text>
+            </Card.Content>
+          </Card>
+        </View>
+      </View>
 
       <View style={styles.section}>
         <Text variant="titleLarge" style={styles.sectionTitle}>
@@ -594,5 +667,35 @@ const styles = StyleSheet.create({
   demoButton: {
     marginRight: 8,
     marginBottom: 8,
+  },
+  integrationGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: -6,
+  },
+  integrationCard: {
+    width: (width - 64) / 3,
+    margin: 6,
+    backgroundColor: theme.colors.surface,
+  },
+  integrationContent: {
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+  },
+  integrationIcon: {
+    margin: 0,
+    marginBottom: 8,
+  },
+  integrationTitle: {
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  integrationSubtitle: {
+    textAlign: 'center',
+    opacity: 0.6,
+    fontSize: 11,
+    lineHeight: 14,
   },
 });

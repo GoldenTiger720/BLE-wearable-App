@@ -1,7 +1,7 @@
-# Mobile App Integration Guide
-## Connecting React Native App to FastAPI Backend
+# Wearable LIA App - Complete Integration Guide
+## React Native App with FastAPI Backend & Three-Layer Processing
 
-This guide shows how to integrate the React Native mobile app with the FastAPI backend to display real-time biosignal data from all three proprietary layers (Clarity™, iFRS™, Timesystems™).
+This comprehensive guide covers the complete integration of the mobile app with the FastAPI backend, demonstrating LIA health insights, BLE connectivity, and the proprietary three-layer processing system (Clarity™, iFRS™, Timesystems™).
 
 ---
 
@@ -10,14 +10,16 @@ This guide shows how to integrate the React Native mobile app with the FastAPI b
 ### 1. Backend API Service (`src/services/backendApi.ts`)
 Complete TypeScript service for FastAPI backend integration:
 - ✅ Health check endpoint
-- ✅ Device connection
+- ✅ Device connection management
 - ✅ Real-time stream data retrieval
-- ✅ Prediction endpoints
+- ✅ LIA prediction endpoints
 - ✅ Session management
-- ✅ Processing logs
-- ✅ WebSocket support
-- ✅ Polling alternative for compatibility
-- ✅ Automatic platform detection (iOS/Android)
+- ✅ Processing logs retrieval
+- ✅ Layer demonstration endpoint
+- ✅ WebSocket support for real-time streaming
+- ✅ Polling alternative for React Native compatibility
+- ✅ Automatic platform detection (iOS/Android/Web)
+- ✅ Comprehensive error handling and retries
 
 ### 2. UI Components
 
@@ -40,25 +42,72 @@ Complete TypeScript service for FastAPI backend integration:
 - iFRS™: HRV features, frequency bands, rhythm classification
 - Timesystems™: Pattern recognition, circadian alignment
 
-### 3. Live Data Screen (`src/screens/livedata/LiveDataScreen.tsx`)
-Complete screen for real-time backend data:
+### 3. Screens
+
+#### Live Data Screen (`src/screens/livedata/LiveDataScreen.tsx`)
+Complete screen for real-time backend data visualization:
 - Auto-refreshing at 1-second intervals
 - Pull-to-refresh support
 - Connection status indicator
-- Real-time biosignal cards
-- Wellness assessment
-- Layer processing details
-- Error handling with retry
+- Real-time biosignal cards with quality metrics
+- Comprehensive wellness assessment from LIA
+- Detailed layer processing information (Clarity™, iFRS™, Timesystems™)
+- Error handling with retry mechanism
+- Play/pause toggle for auto-refresh
 
-### 4. Updated Types (`src/types/index.ts`)
+#### Processing Logs Screen (`src/screens/logs/ProcessingLogsScreen.tsx`)
+**NEW** - Real-time processing logs viewer:
+- Live backend processing logs display
+- Auto-refresh every 2 seconds
+- Filterable by log level (ALL, INFO, SUCCESS, WARNING, ERROR)
+- Color-coded log entries
+- Expandable log data details
+- Layer-specific color highlighting
+- Timestamp display
+- Manual refresh capability
+
+#### API Demo & Testing Screen (`src/screens/demo/DemoConnectionScreen.tsx`)
+**NEW** - Comprehensive API testing and demonstration:
+- System health status monitoring
+- Individual endpoint testing (6 endpoints)
+- Bulk test runner for all endpoints
+- Real-time response inspection
+- Error handling demonstration
+- Performance metrics (response time)
+- Progress tracking
+- Connection status display
+- Service availability checking
+
+### 4. Navigation Integration
+- All screens added to main app navigator
+- Quick access cards on Dashboard
+- Modal presentation for seamless UX
+- Proper navigation flow
+
+### 5. Updated Types (`src/types/index.ts`)
 - BiosignalReading interface
 - WellnessMetrics interface
 - HealthCondition interface
 - SignalQuality interface
+- Complete backend response types
 
 ---
 
-## 🚀 Quick Start Integration
+## 🚀 Quick Start Guide
+
+### Access New Features
+
+The app now has three main integration screens accessible from the Dashboard:
+
+1. **Live Data** - Real-time biosignal streaming and layer processing
+2. **Logs** - Backend processing logs with layer information
+3. **API Demo** - Endpoint testing and system status
+
+Navigate: **Dashboard → Backend Integration Section** → Select desired screen
+
+---
+
+## 🛠️ Setup Instructions
 
 ### Step 1: Install Dependencies (Already Done)
 
@@ -453,47 +502,112 @@ UI Display
 
 ## 📁 Files Created/Modified
 
-### New Files:
+### New Files (Complete Implementation):
 1. `src/services/backendApi.ts` - Complete backend integration service
 2. `src/components/BiosignalCard.tsx` - Biosignal display component
 3. `src/components/WellnessCard.tsx` - Wellness assessment component
 4. `src/components/LayerProcessingCard.tsx` - Layer processing visualization
 5. `src/screens/livedata/LiveDataScreen.tsx` - Live data screen
-6. `INTEGRATION_GUIDE.md` - This file
+6. `src/screens/logs/ProcessingLogsScreen.tsx` - **NEW** Processing logs viewer
+7. `src/screens/demo/DemoConnectionScreen.tsx` - **NEW** API testing screen
+8. `INTEGRATION_GUIDE.md` - This documentation file
 
 ### Modified Files:
 1. `src/types/index.ts` - Added backend-specific types
-
-### To Modify (Your Part):
-1. `src/navigation/AppNavigator.tsx` - Add LiveDataScreen to navigation
-2. `src/screens/dashboard/DashboardScreen.tsx` - Add navigation button
+2. `src/navigation/AppNavigator.tsx` - **UPDATED** Added all new screens to navigation
+3. `src/screens/dashboard/DashboardScreen.tsx` - **UPDATED** Added Backend Integration section with quick access cards
 
 ---
 
-## ✅ Testing Checklist
+## ✅ Complete Testing Checklist
 
-- [ ] Backend starts without errors
+### Backend Connectivity
+- [ ] Backend starts at localhost:8000 without errors
+- [ ] Health check endpoint returns "healthy" status
+- [ ] API documentation accessible at http://localhost:8000/docs
+
+### Mobile App Basics
 - [ ] Mobile app starts without errors
-- [ ] Can navigate to Live Data screen
-- [ ] Connection status shows "Connected"
-- [ ] Biosignal cards show data
-- [ ] Data updates automatically (every 1 second)
+- [ ] Can log in/sign up successfully
+- [ ] Dashboard loads correctly
+- [ ] Backend Integration section visible on Dashboard
+
+### Live Data Screen
+- [ ] Can navigate to Live Data screen from Dashboard
+- [ ] Connection status shows "Connected" with green indicator
+- [ ] Biosignal cards display data (HR, SpO2, Temp, Activity)
+- [ ] Quality metrics show for each signal
+- [ ] Data updates automatically every 1 second
 - [ ] Pull-to-refresh works
-- [ ] Pause/play button works
-- [ ] Wellness card displays correctly
-- [ ] Layer processing cards expand/collapse
-- [ ] Error handling works (stop backend, app shows error)
+- [ ] Pause/play button toggles auto-refresh
+- [ ] Wellness card displays with all 5 metrics
+- [ ] Health condition shows with confidence score
+- [ ] Layer processing cards (Clarity™, iFRS™, Timesystems™) expand/collapse
+- [ ] Each layer shows detailed metrics
+- [ ] Error handling works when backend is stopped
+
+### Processing Logs Screen
+- [ ] Can navigate to Logs screen from Dashboard
+- [ ] Logs display with timestamps
+- [ ] Logs are color-coded by level
+- [ ] Filter chips work (ALL, INFO, SUCCESS, WARNING, ERROR)
+- [ ] Auto-refresh updates logs every 2 seconds
+- [ ] Play/pause button controls auto-refresh
+- [ ] Manual refresh works (pull-to-refresh)
+- [ ] Log details expand when tapped
+- [ ] Layer-specific logs show proper colors
+
+### API Demo Screen
+- [ ] Can navigate to API Demo screen from Dashboard
+- [ ] System status card shows backend health
+- [ ] Active sessions and connected clients display
+- [ ] Service status chips show all services
+- [ ] Can run individual endpoint tests
+- [ ] "Run All Tests" button works
+- [ ] Test progress bar updates correctly
+- [ ] Response data displays in expandable sections
+- [ ] Error messages show for failed tests
+- [ ] Response times display in milliseconds
+- [ ] Reset button clears all test results
+
+### Error Handling
+- [ ] Graceful error when backend is offline
+- [ ] Retry button works in error states
+- [ ] Network timeouts handled properly
+- [ ] App doesn't crash on connection loss
 
 ---
 
 ## 🎉 Next Steps
 
-1. Add LiveDataScreen to navigation (5 minutes)
-2. Add button to Dashboard (2 minutes)
-3. Test on iOS Simulator (immediate)
-4. Test on Android Emulator (if available)
-5. Customize polling interval if needed
-6. Add additional features as desired
+### Everything is Ready!
+
+All integration screens have been implemented and are accessible from the Dashboard:
+
+1. **Start the Backend** (if not already running):
+   ```bash
+   cd backend
+   python main.py
+   ```
+
+2. **Start the Mobile App**:
+   ```bash
+   npx expo start --clear
+   ```
+   Then press `a` for Android or `i` for iOS
+
+3. **Test the Features**:
+   - Go to Dashboard
+   - Scroll to "Backend Integration" section
+   - Tap "Live Data" to see real-time biosignals
+   - Tap "Logs" to view processing logs
+   - Tap "API Demo" to test endpoints
+
+4. **Optional Customizations**:
+   - Adjust polling intervals in respective screens
+   - Modify colors or styling
+   - Add additional visualizations
+   - Extend API functionality
 
 ---
 

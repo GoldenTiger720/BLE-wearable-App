@@ -24,7 +24,7 @@ import { ensureDate, calculateDuration, formatDuration } from '../../utils/dateH
 
 export const HistoryScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { sessions } = useAppStore();
+  const sessions = useAppStore((state) => state.sessions);
   
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMenuVisible, setFilterMenuVisible] = useState(false);

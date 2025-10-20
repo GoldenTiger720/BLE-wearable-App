@@ -3,7 +3,7 @@
  * Shows real-time biosignal data processed through all three proprietary layers
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   StyleSheet,
@@ -112,7 +112,14 @@ export const LiveDataScreen: React.FC = () => {
     }
   };
 
-  const startPolling = () => {
+  const stopPolling = useCallback(() => {
+    if (pollingStopFn.current) {
+      pollingStopFn.current();
+      pollingStopFn.current = null;
+    }
+  }, []);
+
+  const startPolling = useCallback(() => {
     stopPolling(); // Stop any existing polling
 
     pollingStopFn.current = backendAPI.startPolling(
@@ -127,14 +134,7 @@ export const LiveDataScreen: React.FC = () => {
         setError('Polling error occurred');
       }
     );
-  };
-
-  const stopPolling = () => {
-    if (pollingStopFn.current) {
-      pollingStopFn.current();
-      pollingStopFn.current = null;
-    }
-  };
+  }, [stopPolling]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);

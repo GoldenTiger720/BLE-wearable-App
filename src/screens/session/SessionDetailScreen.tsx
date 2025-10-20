@@ -26,11 +26,8 @@ export const SessionDetailScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { sessionId } = route.params as SessionDetailRouteParams;
-  
-  const { sessions } = useAppStore((state) => ({
-    sessions: state.sessions,
-  }));
 
+  const sessions = useAppStore((state) => state.sessions);
   const session = sessions.find(s => s.id === sessionId);
 
   if (!session) {
